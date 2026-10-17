@@ -137,6 +137,10 @@ docker load --input rpfm-server.tar.gz
 The action's `image` input can use that loaded `local/rpfm-server:VERSION`
 image. This automation does not publish GHCR images or merge update PRs.
 Merging a version PR updates the default action build and Compose version.
+The same PR updates both README action examples to `vVERSION-server.1` for a
+new RPFM version; source/schema pin changes within a version retain the existing
+server revision. Publish that action tag separately after merging before using
+the new examples. The updater does not create tags or GitHub Releases.
 Existing workflows pinned to an older action commit continue to use that
 commit until you update their `uses:` reference.
 
