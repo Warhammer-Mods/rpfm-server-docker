@@ -66,8 +66,8 @@ do not require a full game installation.
 
 ## GitHub Actions
 
-The example follows `master`. Choose a published tag from [Releases](https://github.com/Warhammer-Mods/rpfm-server-docker/releases)
-or pin a full commit SHA for immutable builds.
+The example uses a published release tag. Pin a full commit SHA to lock the
+action source.
 
 Use the root composite action or the `/server` action on a Linux runner. It builds the
 pinned backend unless given a prebuilt image, waits for readiness, and mounts
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: Warhammer-Mods/rpfm-server-docker/server@master
+      - uses: Warhammer-Mods/rpfm-server-docker/server@v5.2.0-server.1
         id: rpfm
       - name: Run your pack script
         env:
