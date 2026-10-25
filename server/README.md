@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: Warhammer-Mods/rpfm-server-docker/server@v5.3.0-server.1
+      - uses: Warhammer-Mods/rpfm-server-docker/server@v5.3.1-server.1
         id: rpfm
       - name: Run your pack script
         env:
