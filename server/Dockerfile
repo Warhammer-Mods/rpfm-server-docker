@@ -3,7 +3,7 @@
 ARG RUST_IMAGE=rust:bookworm
 FROM ${RUST_IMAGE} AS builder
 ARG RPFM_COMMIT=c74eac65275f3f92fe0a74c2e6b4bc68f2387aaa
-ARG SCHEMA_COMMIT=29024e92f634c1da38c845c064bdcb0fd6492f67
+ARG SCHEMA_COMMIT=42290ba010661ce3ac426a307fd8d6b3ea0f2c5b
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates git pkg-config cmake clang libclang-dev \
     libssl-dev libdbus-1-dev libsecret-1-dev \
