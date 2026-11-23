@@ -58,6 +58,15 @@ def resolve(fetch=api):
                      "rpfm_commit": commit, "schema_commit": schema["sha"]})
 
 
+def select_candidate(current, upstream_release):
+    if tuple(map(int, upstream_release["version"].split("."))) < tuple(map(int, current["version"].split("."))):
+        raise ValueError("Refusing to downgrade the pinned release")
+    # An unchanged backend tag can carry a manually reviewed schema update.
+    if (upstream_release["tag"], upstream_release["rpfm_commit"]) == (current["tag"], current["rpfm_commit"]):
+        return current
+    return upstream_release
+
+
 def replace_exact(text, old, new, count=1):
     if text.count(old) != count:
         raise ValueError(f"Expected {count} copies of {old!r}; review changed file layout")
@@ -125,9 +134,7 @@ def main():
     if args.command == "version":
         outputs({"version": current["version"]}, args.output)
         return
-    candidate = resolve()
-    if tuple(map(int, candidate["version"].split("."))) < tuple(map(int, current["version"].split("."))):
-        raise ValueError("Refusing to downgrade the pinned release")
+    candidate = select_candidate(current, resolve())
     changed = candidate != current
     if changed and args.apply:
         apply_update(ROOT, current, candidate)
