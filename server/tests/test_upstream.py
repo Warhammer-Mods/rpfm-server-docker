@@ -163,6 +163,18 @@ class UpdateTests(unittest.TestCase):
             upstream.apply_update(self.root, self.current, self.candidate)
         self.assertEqual(self.snapshot(), before)
 
+    def test_unchanged_backend_preserves_reviewed_schema_pin(self):
+        upstream_release = {**self.current, "schema_commit": "b" * 40}
+        self.assertEqual(upstream.select_candidate(self.current, upstream_release), self.current)
+
+    def test_new_backend_uses_its_schema_pin(self):
+        for upstream_release in (
+            {**self.current, "rpfm_commit": "a" * 40, "schema_commit": "b" * 40},
+            {**self.candidate, "version": "99.0.0", "tag": "v99.0.0"},
+        ):
+            with self.subTest(upstream_release=upstream_release):
+                self.assertEqual(upstream.select_candidate(self.current, upstream_release), upstream_release)
+
     def test_current_release_is_noop(self):
         before = self.snapshot()
         upstream.apply_update(self.root, self.current, self.current)
